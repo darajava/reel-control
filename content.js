@@ -49,6 +49,45 @@ const modifyInstagramUI = () => {
 
 const modifyFacebookUI = () => {
   if (!window.location.hostname.includes("facebook.com")) return;
+
+  document
+    .querySelectorAll(
+      "[data-visualcompletion='ignore-dynamic'] .__fb-dark-mode"
+    )
+    .forEach((element) => {
+      element.style.display = "none";
+    });
+
+  document.querySelectorAll("video").forEach((video) => {
+    video.controls = true;
+    video.loop = true;
+    video.controlsList = "nofullscreen";
+    video.muted = false;
+    video.onmouseup = () => {
+      video.muted = false;
+      e.preventDefault();
+      video.blur();
+    };
+    video.onseeked = () => {
+      video.muted = false;
+    };
+    video.onended = () => {
+      video.muted = false;
+    };
+
+    const parent = video.parentElement;
+    if (parent) {
+      Array.from(parent.children).forEach((sibling) => {
+        if (sibling !== video && sibling.hasAttribute("data-instancekey")) {
+          sibling.style.display = "none";
+        }
+      });
+    }
+  });
+
+  console.log(
+    document.querySelectorAll("[data-visualcompletion='ignore-dynamic']").length
+  );
 };
 
 const modifyYoutubeUI = () => {
