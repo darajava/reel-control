@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Seek Anywhere",
   "version": "1.0",
-  "description": "Take back control of videos on the web.",
+  "description": "Reclaim your seek bar! Take back control of videos on the web.",
   "permissions": ["scripting", "activeTab", "storage"],
   "host_permissions": [
     "https://www.instagram.com/*",

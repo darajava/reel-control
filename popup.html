@@ -7,85 +7,227 @@
     <script src="popup.js" defer></script>
     <style>
       body {
-        width: 260px;
-        padding: 10px;
+        width: 280px;
+        padding: 12px;
         font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222;
       }
-      .site {
-        margin-bottom: 15px;
+
+      h1 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        text-align: center;
+        font-weight: bold;
+        letter-spacing: 0.5px;
       }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+
+      .section {
+        padding: 10px 0 14px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+
+      .youtube .section-title {
+        color: #ff0000;
+      }
+
+      .instagram .section-title {
+        color: #c13584;
+      }
+
+      .facebook .section-title {
+        color: #1877f2;
+      }
+
+      .linkedin .section-title {
+        color: #0077b5;
+      }
+
       label {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-size: 14px;
+        margin: 6px 0;
       }
-      .message {
-        font-size: 12px;
+
+      .hint {
+        font-size: 10px;
         color: #777;
-        display: none;
+        margin-left: 4px;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.1);
+        cursor: pointer;
+      }
+
+      .notes-link {
+        display: block;
+        font-size: 12px;
+        color: #858585;
+        text-decoration: underline;
+        cursor: pointer;
+        text-align: center;
         margin-top: 4px;
       }
-      .suboptions {
-        padding-left: 10px;
-        margin-top: 5px;
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
       }
-      .suboptions label {
-        font-size: 14px;
-        justify-content: flex-start;
+
+      .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 85%;
+        max-width: 240px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.5;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      #modal-close {
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        color: #888;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: #888;
+        margin-top: 16px;
         gap: 6px;
+      }
+
+      .github-icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+
+      .github-icon:hover {
+        opacity: 1;
       }
     </style>
   </head>
   <body>
-    <div class="site">
+    <div class="header">
+      <img src="icons/icon128.png" alt="Seek Anywhere logo" class="logo" />
+      <span class="title">Seek Anywhere</span>
+    </div>
+
+    <div class="section youtube">
+      <div class="section-title">YouTube</div>
       <label>
-        <span>YouTube</span>
+        <span>Override seek behavior</span>
         <input type="checkbox" id="youtube-toggle" />
       </label>
-      <div class="suboptions" id="youtube-suboptions">
-        <label>
-          <input type="checkbox" id="youtube-hide-channel" />
-          Hide channel
-        </label>
-        <label>
-          <input type="checkbox" id="youtube-hide-title" />
-          Hide title
-        </label>
-        <label>
-          <input type="checkbox" id="youtube-hide-description" />
-          Hide description
-        </label>
-        <label>
-          <input type="checkbox" id="youtube-hide-track" />
-          Hide music track
-        </label>
-        <label>
-          <input type="checkbox" id="youtube-hide-search-button" />
-          Hide weird "search" button
-        </label>
-      </div>
-      <div class="message" id="youtube-message">
-        Broken? Please email dara@audiodiary.ai
-      </div>
+      <label>
+        <span>Hide channel</span>
+        <input type="checkbox" id="youtube-hide-channel" />
+      </label>
+      <label>
+        <span>Hide title</span>
+        <input type="checkbox" id="youtube-hide-title" />
+      </label>
+      <label>
+        <span>Hide description <span class="hint">(starts with ▶)</span></span>
+        <input type="checkbox" id="youtube-hide-description" />
+      </label>
+      <label>
+        <span>Hide music track</span>
+        <input type="checkbox" id="youtube-hide-track" />
+      </label>
+      <label>
+        <span>Hide weird "search" button</span>
+        <input type="checkbox" id="youtube-hide-search-button" />
+      </label>
+      <a href="#" class="notes-link" data-platform="youtube">notes</a>
     </div>
 
-    <div class="site">
+    <div class="section instagram">
+      <div class="section-title">Instagram</div>
       <label>
-        <span>Instagram</span>
+        <span>Override seek behavior</span>
         <input type="checkbox" id="instagram-toggle" />
       </label>
-      <div class="message" id="instagram-message">
-        Broken? Please email dara@audiodiary.ai
-      </div>
+      <a href="#" class="notes-link" data-platform="instagram">notes</a>
     </div>
 
-    <div class="site">
+    <div class="section facebook">
+      <div class="section-title">Facebook</div>
       <label>
-        <span>Facebook</span>
+        <span>Override seek behavior</span>
         <input type="checkbox" id="facebook-toggle" />
       </label>
-      <div class="message" id="facebook-message">
-        Broken? Please email dara@audiodiary.ai
+      <a href="#" class="notes-link" data-platform="facebook">notes</a>
+    </div>
+
+    <div class="section tiktok">
+      <div class="section-title">TikTok</div>
+      <a href="#" class="notes-link" data-platform="tiktok">notes</a>
+    </div>
+
+    <div class="footer">
+      <span>by @darajava</span>
+      <a
+        href="https://github.com/darajava"
+        target="_blank"
+        title="View on GitHub"
+      >
+        <img src="icons/github.svg" alt="GitHub" class="github-icon" />
+      </a>
+    </div>
+
+    <!-- Modal -->
+    <div id="notes-modal" class="modal">
+      <div class="modal-content">
+        <span id="modal-close">&times;</span>
+        <div id="modal-body"></div>
       </div>
     </div>
   </body>

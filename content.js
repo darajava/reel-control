@@ -2,21 +2,26 @@ console.log("Content script loaded!");
 
 const modifyInstagramUI = () => {
   chrome.storage.sync.get("instagram", ({ instagram }) => {
-    if (instagram === false) return;
+    const enabled = instagram !== false;
+
     if (!window.location.hostname.includes("instagram.com")) return;
 
     document.querySelectorAll('[aria-label="Play"]').forEach((element) => {
       if (element.parentElement?.parentElement) {
-        element.parentElement.parentElement.style.display = "none";
+        element.parentElement.parentElement.style.display = enabled
+          ? "none"
+          : "block";
       }
     });
 
     document
       .querySelectorAll('[data-visualcompletion="ignore"]')
-      .forEach((element) => (element.style.display = "none"));
+      .forEach(
+        (element) => (element.style.display = enabled ? "none" : "block")
+      );
 
     document.querySelectorAll("video").forEach((element) => {
-      element.controls = true;
+      element.controls = enabled ? true : false;
       element.controlsList = "nofullscreen";
       element.loop = true;
       element.muted = false;
@@ -26,49 +31,30 @@ const modifyInstagramUI = () => {
       element.onclick = () =>
         element.paused ? element.play() : element.pause();
     });
-
-    document.addEventListener(
-      "visibilitychange",
-      (event) => {
-        event.stopImmediatePropagation();
-      },
-      true
-    );
   });
 };
 
 const modifyFacebookUI = () => {
   chrome.storage.sync.get("facebook", ({ facebook }) => {
-    if (facebook === false) return;
+    const enabled = facebook !== false;
+
     if (!window.location.hostname.includes("facebook.com")) return;
 
     document
       .querySelectorAll(
         "[data-visualcompletion='ignore-dynamic'] .__fb-dark-mode"
       )
-      .forEach((element) => (element.style.display = "none"));
+      .forEach(
+        (element) => (element.style.display = enabled ? "none" : "block")
+      );
 
     document.querySelectorAll("video").forEach((video) => {
-      video.controls = true;
+      video.controls = enabled ? true : false;
       video.loop = true;
       video.controlsList = "nofullscreen";
-      try {
-        video.muted = false;
-      } catch (error) {
-        console.log(error);
-      }
+      video.muted = false;
 
       video.onmouseup = () => (video.muted = false);
-
-      video.onseeking = (e) => {
-        e.preventDefault();
-        setTimeout(() => {
-          video.blur();
-          document.querySelector('[role="main"]')?.click();
-          console.log("blur");
-        }, 100);
-      };
-
       video.onseeked = () => (video.muted = false);
       video.onended = () => (video.muted = false);
 
@@ -76,7 +62,7 @@ const modifyFacebookUI = () => {
       if (parent) {
         Array.from(parent.children).forEach((sibling) => {
           if (sibling !== video && sibling.hasAttribute("data-instancekey")) {
-            sibling.style.display = "none";
+            sibling.style.display = enabled ? "none" : "block";
           }
         });
       }
@@ -88,6 +74,7 @@ const modifyYoutubeUI = () => {
   chrome.storage.sync.get(
     [
       "youtube",
+      "youtube-hide-title",
       "youtube-hide-channel",
       "youtube-hide-description",
       "youtube-hide-track",
@@ -114,7 +101,7 @@ const modifyYoutubeUI = () => {
 
       // Top controls
       document.querySelectorAll("ytd-shorts-player-controls").forEach((el) => {
-        el.style.display = enabled ? "flex" : "none";
+        el.style.display = enabled ? "none" : "flex";
       });
 
       // Red progress bar
@@ -156,7 +143,11 @@ const modifyYoutubeUI = () => {
       document
         .querySelectorAll("yt-shorts-video-title-view-model")
         .forEach((el) => {
-          el.style.display = hideTitle ? "none" : "block";
+          console.log(
+            "I am setting display to",
+            hideTitle ? "none" : "initial"
+          );
+          el.style.display = hideTitle ? "none" : "initial";
         });
 
       // description
@@ -188,17 +179,8 @@ const modifyYoutubeUI = () => {
   );
 };
 
-const modifyTikTokUI = () => {
-  chrome.storage.sync.get("tiktok", ({ tiktok }) => {
-    if (tiktok === false) return;
-    if (!window.location.hostname.includes("tiktok.com")) return;
-    // Add TikTok-specific logic here
-  });
-};
-
 window.onload = () => {
   setInterval(modifyInstagramUI, 500);
   setInterval(modifyFacebookUI, 500);
   setInterval(modifyYoutubeUI, 500);
-  setInterval(modifyTikTokUI, 500);
 };
