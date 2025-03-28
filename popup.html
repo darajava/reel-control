@@ -7,19 +7,82 @@
     <script src="popup.js" defer></script>
     <style>
       body {
-        width: 200px;
+        width: 260px;
         padding: 10px;
         font-family: Arial, sans-serif;
       }
-      button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
+      .site {
+        margin-bottom: 15px;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .message {
+        font-size: 12px;
+        color: #777;
+        display: none;
+        margin-top: 4px;
+      }
+      .suboptions {
+        padding-left: 10px;
+        margin-top: 5px;
+      }
+      .suboptions label {
+        font-size: 14px;
+        justify-content: flex-start;
+        gap: 6px;
       }
     </style>
   </head>
   <body>
-    <h3>Seek Anywhere</h3>
-    <button id="changeColor">Change Header Color</button>
+    <div class="site">
+      <label>
+        <span>YouTube</span>
+        <input type="checkbox" id="youtube-toggle" />
+      </label>
+      <div class="suboptions" id="youtube-suboptions">
+        <label>
+          <input type="checkbox" id="youtube-hide-channel" />
+          Hide channel
+        </label>
+        <label>
+          <input type="checkbox" id="youtube-hide-description" />
+          Hide description
+        </label>
+        <label>
+          <input type="checkbox" id="youtube-hide-track" />
+          Hide music track
+        </label>
+        <label>
+          <input type="checkbox" id="youtube-hide-search-button" />
+          Hide weird "search" button
+        </label>
+      </div>
+      <div class="message" id="youtube-message">
+        Broken? Please email dara@audiodiary.ai
+      </div>
+    </div>
+
+    <div class="site">
+      <label>
+        <span>Instagram</span>
+        <input type="checkbox" id="instagram-toggle" />
+      </label>
+      <div class="message" id="instagram-message">
+        Broken? Please email dara@audiodiary.ai
+      </div>
+    </div>
+
+    <div class="site">
+      <label>
+        <span>Facebook</span>
+        <input type="checkbox" id="facebook-toggle" />
+      </label>
+      <div class="message" id="facebook-message">
+        Broken? Please email dara@audiodiary.ai
+      </div>
+    </div>
   </body>
 </html>

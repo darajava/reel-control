@@ -1,192 +1,182 @@
 console.log("Content script loaded!");
 
 const modifyInstagramUI = () => {
-  if (!window.location.hostname.includes("instagram.com")) return;
+  chrome.storage.sync.get("instagram", ({ instagram }) => {
+    if (instagram === false) return;
+    if (!window.location.hostname.includes("instagram.com")) return;
 
-  document.querySelectorAll('[aria-label="Play"]').forEach((element) => {
-    if (element.parentElement?.parentElement) {
-      element.parentElement.parentElement.remove();
-    }
-  });
-
-  document
-    .querySelectorAll('[data-visualcompletion="ignore"]')
-    .forEach((element) => {
-      element.remove();
+    document.querySelectorAll('[aria-label="Play"]').forEach((element) => {
+      if (element.parentElement?.parentElement) {
+        element.parentElement.parentElement.style.display = "none";
+      }
     });
 
-  document.querySelectorAll("video").forEach((element) => {
-    element.controls = true;
-    element.controlsList = "nofullscreen";
-    element.loop = true;
-    element.muted = false;
-    element.onmouseup = () => {
-      element.muted = false;
-    };
-    element.onseeked = () => {
-      element.muted = false;
-    };
-    element.onended = () => {
-      element.muted = false;
-    };
-    element.onclick = () => {
-      if (element.paused) {
-        element.play();
-      } else {
-        element.pause();
-      }
-    };
-  });
+    document
+      .querySelectorAll('[data-visualcompletion="ignore"]')
+      .forEach((element) => (element.style.display = "none"));
 
-  document.addEventListener(
-    "visibilitychange",
-    (event) => {
-      event.stopImmediatePropagation();
-    },
-    true
-  );
+    document.querySelectorAll("video").forEach((element) => {
+      element.controls = true;
+      element.controlsList = "nofullscreen";
+      element.loop = true;
+      element.muted = false;
+      element.onmouseup = () => (element.muted = false);
+      element.onseeked = () => (element.muted = false);
+      element.onended = () => (element.muted = false);
+      element.onclick = () =>
+        element.paused ? element.play() : element.pause();
+    });
+
+    document.addEventListener(
+      "visibilitychange",
+      (event) => {
+        event.stopImmediatePropagation();
+      },
+      true
+    );
+  });
 };
 
 const modifyFacebookUI = () => {
-  if (!window.location.hostname.includes("facebook.com")) return;
+  chrome.storage.sync.get("facebook", ({ facebook }) => {
+    if (facebook === false) return;
+    if (!window.location.hostname.includes("facebook.com")) return;
 
-  document
-    .querySelectorAll(
-      "[data-visualcompletion='ignore-dynamic'] .__fb-dark-mode"
-    )
-    .forEach((element) => {
-      element.style.display = "none";
+    document
+      .querySelectorAll(
+        "[data-visualcompletion='ignore-dynamic'] .__fb-dark-mode"
+      )
+      .forEach((element) => (element.style.display = "none"));
+
+    document.querySelectorAll("video").forEach((video) => {
+      video.controls = true;
+      video.loop = true;
+      video.controlsList = "nofullscreen";
+      try {
+        video.muted = false;
+      } catch (error) {
+        console.log(error);
+      }
+
+      video.onmouseup = () => (video.muted = false);
+
+      video.onseeking = (e) => {
+        e.preventDefault();
+        setTimeout(() => {
+          video.blur();
+          document.querySelector('[role="main"]')?.click();
+          console.log("blur");
+        }, 100);
+      };
+
+      video.onseeked = () => (video.muted = false);
+      video.onended = () => (video.muted = false);
+
+      const parent = video.parentElement;
+      if (parent) {
+        Array.from(parent.children).forEach((sibling) => {
+          if (sibling !== video && sibling.hasAttribute("data-instancekey")) {
+            sibling.style.display = "none";
+          }
+        });
+      }
     });
-
-  document.querySelectorAll("video").forEach((video) => {
-    video.controls = true;
-    video.loop = true;
-    video.controlsList = "nofullscreen";
-    video.muted = false;
-    video.onmouseup = () => {
-      video.muted = false;
-      e.preventDefault();
-      video.blur();
-    };
-    video.onseeked = () => {
-      video.muted = false;
-    };
-    video.onended = () => {
-      video.muted = false;
-    };
-
-    const parent = video.parentElement;
-    if (parent) {
-      Array.from(parent.children).forEach((sibling) => {
-        if (sibling !== video && sibling.hasAttribute("data-instancekey")) {
-          sibling.style.display = "none";
-        }
-      });
-    }
   });
-
-  console.log(
-    document.querySelectorAll("[data-visualcompletion='ignore-dynamic']").length
-  );
 };
 
 const modifyYoutubeUI = () => {
-  console.log(
-    "window.location.hostname!!!",
-    window.location.hostname,
-    window.location.pathname
-  );
-  if (!window.location.hostname.includes("youtube.com")) return;
-  if (!window.location.pathname.includes("shorts")) {
-    document.querySelectorAll("video").forEach((video) => {
-      video.controls = false;
-    });
-    return;
-  }
+  chrome.storage.sync.get("youtube", ({ youtube }) => {
+    console.log("youtube is ", youtube);
+    let modifyUI = true;
 
-  // ytd-shorts-player-controls
-
-  document.querySelectorAll("ytd-shorts-player-controls").forEach((element) => {
-    element.remove();
-  });
-
-  // yt-progress-bar
-
-  document.querySelectorAll("yt-progress-bar").forEach((element) => {
-    element.remove();
-  });
-
-  // reel-sound-metadata-view-model
-
-  document
-    .querySelectorAll("reel-sound-metadata-view-model")
-    .forEach((element) => {
-      element.remove();
-    });
-
-  // yt-shorts-suggested-action-view-model
-
-  document
-    .querySelectorAll("yt-shorts-suggested-action-view-model")
-    .forEach((element) => {
-      element.remove();
-    });
-
-  // yt-shorts-video-title-view-model
-
-  document
-    .querySelectorAll("yt-shorts-video-title-view-model")
-    .forEach((element) => {
-      // element.remove();
-    });
-
-  // yt-reel-multi-format-link-view-model
-
-  document
-    .querySelectorAll("yt-reel-multi-format-link-view-model")
-    .forEach((element) => {
-      // element.remove();
-    });
-
-  // yt-reel-metapanel-view-model
-
-  document
-    .querySelectorAll("yt-reel-metapanel-view-model")
-    .forEach((element) => {
-      element.parentElement.parentElement.style.pointerEvents = "none";
-
-      element.style.pointerEvents = "none";
-    });
-
-  // .metadata-container.ytd-reel-player-overlay-renderer
-
-  document
-    .querySelectorAll(".metadata-container.ytd-reel-player-overlay-renderer")
-    .forEach((element) => {
-      element.style.position = "relative";
-      element.style.bottom = "40px";
-      element.style.backgroundImage = "none";
-    });
-
-  document.querySelectorAll("video").forEach((video) => {
-    video.controls = true;
-    if (video.attributes["data-no-fullscreen"]) {
-      video.attributes["data-no-fullscreen"].value = "false";
+    if (youtube === false) {
+      modifyUI = false;
     }
-    video.style.objectFit = "contain";
-  });
 
-  // yt-subscribe-button-view-model
+    if (!window.location.hostname.includes("youtube.com")) return;
 
-  document
-    .querySelectorAll("yt-reel-channel-bar-view-model")
-    .forEach((element) => {
-      element.style.pointerEvents = "all";
+    if (!window.location.pathname.includes("shorts")) {
+      document.querySelectorAll("video").forEach((video) => {
+        video.controls = false;
+      });
+      return;
+    }
+
+    // The controls at the top
+    document.querySelectorAll("ytd-shorts-player-controls").forEach((el) => {
+      el.style.display = modifyUI ? "none" : "flex";
     });
+
+    // The red progress bar at the bottom
+    document
+      .querySelectorAll("yt-progress-bar")
+      .forEach((el) => (el.style.display = modifyUI ? "none" : "block"));
+
+    // The track on the video
+    document
+      .querySelectorAll("reel-sound-metadata-view-model")
+      .forEach((el) => {
+        el.style.display = modifyUI ? "none" : "block";
+        el.style.border = "1px solid red";
+      });
+
+    // Weird suggested search for a given video?
+    document
+      .querySelectorAll("yt-shorts-suggested-action-view-model")
+      .forEach((el) => (el.style.display = modifyUI ? "none" : "block"));
+
+    // The title/description/user-handle of the video
+    document.querySelectorAll("yt-reel-metapanel-view-model").forEach((el) => {
+      el.parentElement.parentElement.style.pointerEvents = modifyUI
+        ? "none"
+        : "all";
+      el.style.pointerEvents = modifyUI ? "none" : "all";
+    });
+
+    // The title of the video
+    document
+      .querySelectorAll("yt-shorts-video-title-view-model")
+      .forEach((el) => {});
+
+    // The channel of the video
+    document
+      .querySelectorAll("yt-reel-channel-bar-view-model")
+      .forEach((el) => {});
+
+    document
+      .querySelectorAll(".metadata-container.ytd-reel-player-overlay-renderer")
+      .forEach((el) => {
+        if (modifyUI) {
+          el.style.position = "relative";
+          el.style.bottom = "40px";
+          el.style.backgroundImage = "none";
+        } else {
+          el.style.position = "initial";
+          el.style.bottom = "initial";
+          el.style.backgroundImage = "initial";
+        }
+      });
+
+    document.querySelectorAll("video").forEach((video) => {
+      video.controls = modifyUI ? true : false;
+      if (video.attributes["data-no-fullscreen"]) {
+        video.attributes["data-no-fullscreen"].value = "false";
+      }
+      video.style.objectFit = "contain";
+    });
+
+    document
+      .querySelectorAll("yt-reel-channel-bar-view-model")
+      .forEach((el) => (el.style.pointerEvents = "all"));
+  });
 };
 
 const modifyTikTokUI = () => {
-  if (!window.location.hostname.includes("tiktok.com")) return;
+  chrome.storage.sync.get("tiktok", ({ tiktok }) => {
+    if (tiktok === false) return;
+    if (!window.location.hostname.includes("tiktok.com")) return;
+    // Add TikTok-specific logic here
+  });
 };
 
 window.onload = () => {
