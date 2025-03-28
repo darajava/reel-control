@@ -62,6 +62,7 @@ const modifyYoutubeUI = () => {
     document.querySelectorAll("video").forEach((video) => {
       video.controls = false;
     });
+    return;
   }
 
   // ytd-shorts-player-controls
@@ -97,7 +98,7 @@ const modifyYoutubeUI = () => {
   document
     .querySelectorAll("yt-shorts-video-title-view-model")
     .forEach((element) => {
-      element.remove();
+      // element.remove();
     });
 
   // yt-reel-multi-format-link-view-model
@@ -105,7 +106,7 @@ const modifyYoutubeUI = () => {
   document
     .querySelectorAll("yt-reel-multi-format-link-view-model")
     .forEach((element) => {
-      element.remove();
+      // element.remove();
     });
 
   // yt-reel-metapanel-view-model
@@ -113,14 +114,9 @@ const modifyYoutubeUI = () => {
   document
     .querySelectorAll("yt-reel-metapanel-view-model")
     .forEach((element) => {
-      element.parentElement.parentElement.parentElement.style.position =
-        "relative";
-      element.parentElement.parentElement.parentElement.style.bottom = "30px";
-
       element.parentElement.parentElement.style.pointerEvents = "none";
 
       element.style.pointerEvents = "none";
-      element.style.opacity = "0.8";
     });
 
   // .metadata-container.ytd-reel-player-overlay-renderer
@@ -129,7 +125,7 @@ const modifyYoutubeUI = () => {
     .querySelectorAll(".metadata-container.ytd-reel-player-overlay-renderer")
     .forEach((element) => {
       element.style.position = "relative";
-      element.style.bottom = "30px";
+      element.style.bottom = "40px";
       element.style.backgroundImage = "none";
     });
 
@@ -144,7 +140,7 @@ const modifyYoutubeUI = () => {
   // yt-subscribe-button-view-model
 
   document
-    .querySelectorAll("yt-subscribe-button-view-model")
+    .querySelectorAll("yt-reel-channel-bar-view-model")
     .forEach((element) => {
       element.style.pointerEvents = "all";
     });
