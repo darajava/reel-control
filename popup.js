@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const platforms = ["youtube", "instagram", "facebook"];
   const youtubeOptions = [
     "youtube-hide-channel",
+    "youtube-hide-title",
     "youtube-hide-description",
     "youtube-hide-track",
     "youtube-hide-search-button",

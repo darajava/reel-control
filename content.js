@@ -85,90 +85,107 @@ const modifyFacebookUI = () => {
 };
 
 const modifyYoutubeUI = () => {
-  chrome.storage.sync.get("youtube", ({ youtube }) => {
-    console.log("youtube is ", youtube);
-    let modifyUI = true;
+  chrome.storage.sync.get(
+    [
+      "youtube",
+      "youtube-hide-channel",
+      "youtube-hide-description",
+      "youtube-hide-track",
+      "youtube-hide-search-button",
+    ],
+    (settings) => {
+      if (!window.location.hostname.includes("youtube.com")) return;
 
-    if (youtube === false) {
-      modifyUI = false;
-    }
+      const enabled = settings.youtube !== false;
+      const hideChannel = settings["youtube-hide-channel"] !== false;
+      const hideTitle = settings["youtube-hide-title"] !== false;
+      const hideDescription = settings["youtube-hide-description"] !== false;
+      const hideTrack = settings["youtube-hide-track"] !== false;
+      const hideSearchButton = settings["youtube-hide-search-button"] !== false;
 
-    if (!window.location.hostname.includes("youtube.com")) return;
+      const isShorts = window.location.pathname.includes("shorts");
 
-    if (!window.location.pathname.includes("shorts")) {
-      document.querySelectorAll("video").forEach((video) => {
-        video.controls = false;
-      });
-      return;
-    }
+      if (!isShorts) {
+        document.querySelectorAll("video").forEach((video) => {
+          video.controls = false;
+        });
+        return;
+      }
 
-    // The controls at the top
-    document.querySelectorAll("ytd-shorts-player-controls").forEach((el) => {
-      el.style.display = modifyUI ? "none" : "flex";
-    });
-
-    // The red progress bar at the bottom
-    document
-      .querySelectorAll("yt-progress-bar")
-      .forEach((el) => (el.style.display = modifyUI ? "none" : "block"));
-
-    // The track on the video
-    document
-      .querySelectorAll("reel-sound-metadata-view-model")
-      .forEach((el) => {
-        el.style.display = modifyUI ? "none" : "block";
-        el.style.border = "1px solid red";
+      // Top controls
+      document.querySelectorAll("ytd-shorts-player-controls").forEach((el) => {
+        el.style.display = enabled ? "flex" : "none";
       });
 
-    // Weird suggested search for a given video?
-    document
-      .querySelectorAll("yt-shorts-suggested-action-view-model")
-      .forEach((el) => (el.style.display = modifyUI ? "none" : "block"));
+      // Red progress bar
+      document
+        .querySelectorAll("yt-progress-bar")
+        .forEach((el) => (el.style.display = enabled ? "none" : "flex"));
 
-    // The title/description/user-handle of the video
-    document.querySelectorAll("yt-reel-metapanel-view-model").forEach((el) => {
-      el.parentElement.parentElement.style.pointerEvents = modifyUI
-        ? "none"
-        : "all";
-      el.style.pointerEvents = modifyUI ? "none" : "all";
-    });
+      // Audio track info
+      document
+        .querySelectorAll("reel-sound-metadata-view-model")
+        .forEach((el) => {
+          el.style.display = hideTrack ? "none" : "block";
+        });
 
-    // The title of the video
-    document
-      .querySelectorAll("yt-shorts-video-title-view-model")
-      .forEach((el) => {});
+      // Weird suggested search button
+      document
+        .querySelectorAll("yt-shorts-suggested-action-view-model")
+        .forEach((el) => {
+          el.style.display = hideSearchButton ? "none" : "block";
+        });
 
-    // The channel of the video
-    document
-      .querySelectorAll("yt-reel-channel-bar-view-model")
-      .forEach((el) => {});
+      // Metapanel: includes title, description, channel
+      // document
+      //   .querySelectorAll("yt-reel-metapanel-view-model")
+      //   .forEach((el) => {
+      //     if (hideChannel) {
+      //     el.parentElement.parentElement.style.pointerEvents = "none";
+      //     el.style.pointerEvents = "none";
+      //   });
 
-    document
-      .querySelectorAll(".metadata-container.ytd-reel-player-overlay-renderer")
-      .forEach((el) => {
-        if (modifyUI) {
+      // Channel (handle + subscribe)
+      document
+        .querySelectorAll("yt-reel-channel-bar-view-model")
+        .forEach((el) => {
+          el.style.display = hideChannel ? "none" : "flex";
+        });
+
+      // title
+      document
+        .querySelectorAll("yt-shorts-video-title-view-model")
+        .forEach((el) => {
+          el.style.display = hideTitle ? "none" : "block";
+        });
+
+      // description
+      document
+        .querySelectorAll("yt-reel-multi-format-link-view-model")
+        .forEach((el) => {
+          el.style.display = hideDescription ? "none" : "block";
+        });
+
+      // Metadata container at bottom (handle position/border/etc)
+      document
+        .querySelectorAll(
+          ".metadata-container.ytd-reel-player-overlay-renderer"
+        )
+        .forEach((el) => {
           el.style.position = "relative";
           el.style.bottom = "40px";
           el.style.backgroundImage = "none";
-        } else {
-          el.style.position = "initial";
-          el.style.bottom = "initial";
-          el.style.backgroundImage = "initial";
+        });
+
+      document.querySelectorAll("video").forEach((video) => {
+        video.controls = enabled;
+        if (video.attributes["data-no-fullscreen"]) {
+          video.attributes["data-no-fullscreen"].value = "false";
         }
+        video.style.objectFit = "contain";
       });
-
-    document.querySelectorAll("video").forEach((video) => {
-      video.controls = modifyUI ? true : false;
-      if (video.attributes["data-no-fullscreen"]) {
-        video.attributes["data-no-fullscreen"].value = "false";
-      }
-      video.style.objectFit = "contain";
-    });
-
-    document
-      .querySelectorAll("yt-reel-channel-bar-view-model")
-      .forEach((el) => (el.style.pointerEvents = "all"));
-  });
+    }
+  );
 };
 
 const modifyTikTokUI = () => {
