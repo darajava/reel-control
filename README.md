@@ -1,6 +1,6 @@
 # Seek Anywhere
 
-**Reclaim your seek bar!**
+**Reclaim your right to seek!**
 
 Take back control of videos on the web. Seek Anywhere will add a seek (progress) bar anywhere on the web that it should rightfully be! That is, on YouTube Shorts, Instagram, or Facebook reels.
 
