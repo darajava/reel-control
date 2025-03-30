@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Seek Anywhere",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Reclaim your right to seek! Take back control of videos on the web.",
   "permissions": ["scripting", "storage"],
   "host_permissions": [

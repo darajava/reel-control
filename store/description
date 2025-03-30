@@ -4,4 +4,24 @@ Companies remove your right to seek to keep you hooked. When you start a video, 
 
 Personally I found that when I have the seeking bars re-enabled, these short form videos become a lot less addictive.
 
-Open source, PRs and issues are very welcome @ https://github.com/darajava/seek-anywhere/
+Platforms:
+
+YouTube
+
+YouTube does have its own seek bar, but it's kept out of view and it doesn't allow the user to tell the length of the video at a glance.
+
+YouTube Shorts interface is crazy cluttered, so we have some options to remove most elements from view.
+
+Facebook
+
+Facebook has a crazy amount of clutter on its reels, and also no seeking controls.
+
+Facebook's HTML structure is extremely obfuscated, so we just removed all the clutter and added a seek bar. If anyone wants to add more fine-grained control, PRs are most welcome here!
+
+Instagram
+
+Instagram has a pretty clean video interface, so we only add native seeking controls.
+
+--
+
+Open source, PRs and issues are welcome @ https://github.com/darajava/seek-anywhere/

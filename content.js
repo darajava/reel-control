@@ -20,16 +20,22 @@ const modifyInstagramUI = () => {
         (element) => (element.style.display = enabled ? "none" : "block")
       );
 
-    document.querySelectorAll("video").forEach((element) => {
-      element.controls = enabled ? true : false;
-      element.controlsList = "nofullscreen";
-      element.loop = true;
-      element.muted = false;
-      element.onmouseup = () => (element.muted = false);
-      element.onseeked = () => (element.muted = false);
-      element.onended = () => (element.muted = false);
-      element.onclick = () =>
-        element.paused ? element.play() : element.pause();
+    document.querySelectorAll("video").forEach((video) => {
+      video.controls = enabled ? true : false;
+      video.controlsList = "nofullscreen";
+      video.loop = true;
+      if (enabled) {
+        video.muted = false;
+        video.onmouseup = () => (video.muted = false);
+        video.onseeked = () => (video.muted = false);
+        video.onended = () => (video.muted = false);
+        video.onclick = () => (video.paused ? video.play() : video.pause());
+      } else {
+        video.onmouseup = null;
+        video.onseeked = null;
+        video.onended = null;
+        video.onclick = null;
+      }
     });
   });
 };

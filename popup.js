@@ -49,7 +49,7 @@ const notes = {
   facebook: `
     <strong>Facebook</strong><br/><br/>
     - Facebook has a crazy amount of clutter on its reels, and also no seeking controls. So kind of the worst of both worlds.<br/><br/>
-    - Facebook's HTML structure is extremely obsfuscated, so I just removed all the clutter and added a seek bar. If anyone wants to add more fine-grained control, PRs are most welcome!
+    - Facebook's HTML structure is extremely obsfuscated, so we just remove all the clutter and added a seek bar. If anyone wants to add more fine-grained control, PRs are most welcome!
   `,
   tiktok: `
     <strong>TikTok</strong><br/><br/>

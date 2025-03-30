@@ -6,7 +6,7 @@ Take back control of videos on the web. Seek Anywhere will add a seek (progress)
 
 ---
 
-## 🤔 Why?
+## Why?
 
 Platforms deliberately remove your right to seek:
 
@@ -32,7 +32,3 @@ With seek bars restored, short-form video becomes **less addictive** and much mo
 
 Open source — PRs and issues are welcome!  
 → [https://github.com/darajava/seek-anywhere/](https://github.com/darajava/seek-anywhere/)
-
----
-
-Made by [@darajava](https://github.com/darajava) with ✨ and just a little frustration.
