@@ -22,10 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // YouTube sub-options
+    const youtubeDefaults = {
+      "youtube-hide-channel": false,
+      "youtube-hide-title": false,
+      "youtube-hide-description": true,
+      "youtube-hide-track": true,
+      "youtube-hide-search-button": true,
+    };
+
     youtubeOptions.forEach((key) => {
       const checkbox = document.getElementById(key);
-      const isChecked = settings[key] !== false; // default: true
+      const isChecked =
+        settings[key] !== undefined ? settings[key] : youtubeDefaults[key];
       checkbox.checked = isChecked;
 
       checkbox.addEventListener("change", () => {
@@ -37,8 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const notes = {
   youtube: `
-    <strong>YouTube</strong><br/><br/>
-    - YouTube does have its own seek bar, but it's kept out of view and it doesn't allow the user to tell the length of the video at a glance.<br/><br/>
+    <strong>YouTube Shorts</strong><br/><br/>
+    - YouTube Shorts do have their own seek bars, but they're kept out of view and don't allow the user to tell the length of the video at a glance.<br/><br/>
     - YouTube Shorts interface is crazy cluttered, so we have some options to remove most elements from view.<br/><br/>
     - The seek bar doesn't work perfectly--you can't "drag" it, but I think it is a lot better than YouTube's default one. (PRs are very welcome here)
   `,
@@ -47,14 +55,17 @@ const notes = {
     - Instagram has a pretty clean video interface, so we only add native seeking controls.
   `,
   facebook: `
-    <strong>Facebook</strong><br/><br/>
-    - Facebook has a crazy amount of clutter on its reels, and also no seeking controls. So kind of the worst of both worlds.<br/><br/>
+    <strong>Facebook Reels</strong><br/><br/>
+    - Facebook's Reels have a crazy amount of clutter, and also no seeking controls.<br/><br/>
     - Facebook's HTML structure is extremely obsfuscated, so we just remove all the clutter and added a seek bar. If anyone wants to add more fine-grained control, PRs are most welcome!
   `,
   tiktok: `
     <strong>TikTok</strong><br/><br/>
-    - TikTok actually has pretty good seek behavior! (with the comments open).<br/><br/>
-    - Shame it's such an terrible platform.
+    - TikTok actually has pretty good seek behavior! (with the comments open).
+  `,
+  soliloquy: `
+    <strong>Soliloquy Apps</strong><br/><br/>
+    Enjoying this extension?<br/><br/>We also built <span class="audio">Audio</span><span class="diary">Diary</span>--a super smart voice-powered journal that's gotten lots of love from its users.<br/><br/><center><a href="https://audiodiary.ai" class="audio-diary-link" target="_blank">Try it out here!</a></center>
   `,
 };
 
@@ -66,12 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalBody = document.getElementById("modal-body");
   const modalClose = document.getElementById("modal-close");
 
-  document.querySelectorAll(".notes-link").forEach((link) => {
+  document.querySelectorAll(".modal-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       const platform = link.getAttribute("data-platform");
       modalBody.innerHTML = notes[platform] || "No notes available.";
-      modal.style.display = "block";
+      modal.style.display = "flex";
     });
   });
 
