@@ -44,24 +44,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const notes = {
-  youtube: `
-    <strong>YouTube Shorts</strong><br/><br/>
-    - YouTube Shorts do have their own seek bars, but they're kept out of view and don't allow the user to tell the length of the video at a glance.<br/><br/>
-    - YouTube Shorts interface is crazy cluttered, so we have some options to remove most elements from view.<br/><br/>
-    - The seek bar doesn't work perfectly--you can't "drag" it, but I think it is a lot better than YouTube's default one. (PRs are very welcome here)
-  `,
   instagram: `
     <strong>Instagram</strong><br/><br/>
-    - Instagram has a pretty clean video interface, so we only add native seeking controls.
+    - Instagram has a pretty clean video interface, so we only add the native video controls.
+  `,
+  youtube: `
+    <strong>YouTube Shorts</strong><br/><br/>
+    - YouTube does have its own progress bar, but it's proprietary and kept out of view and so it doesn't allow the user to tell the length of the video at a glance.<br/><br/>
+    - YouTube Shorts interface is crazy cluttered, so we have some options to remove most elements from view.
   `,
   facebook: `
     <strong>Facebook Reels</strong><br/><br/>
-    - Facebook's Reels have a crazy amount of clutter, and also no seeking controls.<br/><br/>
-    - Facebook's HTML structure is extremely obsfuscated, so we just remove all the clutter and added a seek bar. If anyone wants to add more fine-grained control, PRs are most welcome!
+    - Facebook Reels have a crazy amount of clutter, and also no progress bar or video controls.<br/><br/>
+    - Facebook's HTML structure is extremely obfuscated, so we just removed all the clutter and added a progress bar. If anyone wants to add more fine-grained control, PRs are most welcome here!
   `,
   tiktok: `
     <strong>TikTok</strong><br/><br/>
-    - TikTok actually has pretty good seek behavior! (with the comments open).
+    - TikTok actually has pretty good video control behavior! So we leave it alone. (with the comments open).
   `,
   soliloquy: `
     <strong>Soliloquy Apps</strong><br/><br/>
