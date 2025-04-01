@@ -1,12 +1,12 @@
-Take back control of videos on the web by reversing the pretty annoying trend of tech companies removing native video controls to keep you hooked. ReelControl will add a progress bar and playback controls anywhere on the web that they should rightfully be! That is, on Instagram, YouTube Shorts, or Facebook Reels.
+Take back control of videos on the web by reversing the (very) annoying trend of social media platforms removing the native progress bar in an effort to keep you hooked. ReelControl adds a progress bar and playback controls anywhere they should rightfully be! That is, on Instagram, YouTube Shorts, or Facebook Reels.
 
-Companies remove progress bars to keep you hooked. Adding it back in lets you
+Adding progress bars and video controls back in lets you:
 
 - Know the time commitment before watching
 - Rewind when you miss something
 - Skip ahead and go back without having to start over
 
-I built this for myself and found that not only is it a little bit more enjoyable if I ever do end up on those videos, but I notice myself spending a lot less time on them without explicitly blocking them. I spend less time on my phone too, since I am now used to having that progress bar and just get frustrated and leave immediately.
+I initially built this for myself and found that not only is it a little bit more enjoyable if I do ever end up on those videos, but I notice myself spending a lot less time on them without having to explicitly block them. I spend less time on my phone too, since I am now used to having that progress bar and just get frustrated and leave immediately when I remember it's not there.
 
 == Platform Notes ==
 
@@ -16,7 +16,7 @@ Instagram
 
 YouTube Shorts
 
-- YouTube does have its own progress bar, but it's propriatary and kept out of view and so it doesn't allow the user to tell the length of the video at a glance.
+- YouTube does have its own progress bar, but it's proprietary and hidden from immediate view, making it impossible to quickly see the video's length as opposed to the native controls which work _for_ the user.
 
 - YouTube Shorts interface is crazy cluttered, so we have some options to remove most elements from view.
 
@@ -32,7 +32,7 @@ Open source, PRs and issues are welcome @ https://github.com/darajava/reel-contr
 
 --
 
-Built by Soliloquy Apps
+Built with love by Soliloquy Apps ❤️
 
 Like this extension? We also built AudioDiary--a super smart voice-powered journal that's gotten lots of love from its users.
 
