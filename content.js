@@ -27,6 +27,9 @@ const modifyInstagramUI = () => {
       if (enabled) {
         video.onvolumechange = () => {
           overallVolume = video.volume;
+          // this breaks the mute shortcut control but this is good
+          // because platforms hijack this.
+          // The user can still drag the volume slider to 0
           video.muted = false;
         };
         video.muted = overallVolume === 0;
@@ -189,6 +192,9 @@ const modifyYoutubeUI = () => {
 
         video.onvolumechange = () => {
           overallVolume = video.volume;
+          // this breaks the mute shortcut control but this is good
+          // because platforms hijack this.
+          // The user can still drag the volume slider to 0
           video.muted = false;
         };
 
