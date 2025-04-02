@@ -1,7 +1,10 @@
 console.log("Content script loaded!");
 
+var overallVolume = 1;
+
 const modifyInstagramUI = () => {
   chrome.storage.sync.get("instagram", ({ instagram }) => {
+    console.log("overallVolume", overallVolume);
     const enabled = instagram !== false;
 
     if (!window.location.hostname.includes("instagram.com")) return;
@@ -21,16 +24,19 @@ const modifyInstagramUI = () => {
       );
 
     document.querySelectorAll("video").forEach((video) => {
-      video.controls = enabled ? true : false;
-      video.controlsList = "nofullscreen";
-      video.loop = true;
       if (enabled) {
-        video.muted = false;
-        video.onmouseup = () => (video.muted = false);
-        video.onseeked = () => (video.muted = false);
-        video.onended = () => (video.muted = false);
+        video.onvolumechange = () => {
+          overallVolume = video.volume;
+          video.muted = false;
+        };
+        video.muted = overallVolume === 0;
+        video.volume = overallVolume;
+        video.loop = true;
+        video.controls = true;
+        video.controlsList = "nofullscreen";
         video.onclick = () => (video.paused ? video.play() : video.pause());
       } else {
+        video.controls = false;
         video.onmouseup = null;
         video.onseeked = null;
         video.onended = null;
@@ -180,6 +186,14 @@ const modifyYoutubeUI = () => {
           video.attributes["data-no-fullscreen"].value = "false";
         }
         video.style.objectFit = "contain";
+
+        video.onvolumechange = () => {
+          overallVolume = video.volume;
+          video.muted = false;
+        };
+
+        video.muted = overallVolume === 0;
+        video.volume = overallVolume;
       });
     }
   );
