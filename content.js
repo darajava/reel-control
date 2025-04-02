@@ -15,7 +15,7 @@ const modifyInstagramUI = () => {
     });
 
     document
-      .querySelectorAll('[data-visualcompletion="ignore"]')
+      .querySelectorAll('article [data-visualcompletion="ignore"]')
       .forEach(
         (element) => (element.style.display = enabled ? "none" : "block")
       );
