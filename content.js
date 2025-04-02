@@ -158,10 +158,6 @@ const modifyYoutubeUI = () => {
       document
         .querySelectorAll("yt-shorts-video-title-view-model")
         .forEach((el) => {
-          console.log(
-            "I am setting display to",
-            hideTitle ? "none" : "initial"
-          );
           el.style.display = hideTitle ? "none" : "initial";
         });
 
@@ -191,6 +187,10 @@ const modifyYoutubeUI = () => {
         video.style.objectFit = "contain";
 
         video.onvolumechange = () => {
+          if (!isOnScreen(video)) {
+            return;
+          }
+
           overallVolume = video.volume;
           // this breaks the mute shortcut control but this is good
           // because platforms hijack this.
@@ -202,6 +202,17 @@ const modifyYoutubeUI = () => {
         video.volume = overallVolume;
       });
     }
+  );
+};
+
+const isOnScreen = (el) => {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 };
 
