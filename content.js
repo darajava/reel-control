@@ -9,6 +9,9 @@ const modifyInstagramUI = () => {
 
     if (!window.location.hostname.includes("instagram.com")) return;
 
+    // Don't change stories behavior
+    if (window.location.pathname.includes("stories")) return;
+
     document.querySelectorAll('[aria-label="Play"]').forEach((element) => {
       if (element.parentElement?.parentElement) {
         element.parentElement.parentElement.style.display = enabled
