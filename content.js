@@ -50,7 +50,9 @@ const modifyInstagramUI = () => {
 };
 
 const modifyFacebookUI = () => {
-  chrome.storage.sync.get("facebook", ({ facebook }) => {
+  chrome.storage.sync.get(["facebook", "facebook-autounmute"], (settings) => {
+    const {facebook, 'facebook-autounmute': autoUnmute} = settings;
+
     const enabled = facebook !== false;
 
     if (!window.location.hostname.includes("facebook.com")) return;
@@ -67,11 +69,14 @@ const modifyFacebookUI = () => {
       video.controls = enabled ? true : false;
       video.loop = true;
       video.controlsList = "nofullscreen";
-      video.muted = false;
+      if (autoUnmute) {
+        video.muted = false;
+      }
 
       video.onmouseup = () => (video.muted = false);
-      video.onseeked = () => (video.muted = false);
-      video.onended = () => (video.muted = false);
+      // onseeked seems to include looping back around to the beginning
+      video.onseeked = () => {if (autoUnmute) {video.muted = false;}};
+      video.onended = () => {if (autoUnmute) {video.muted = false;}};
 
       const parent = video.parentElement;
       if (parent) {
