@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   const platforms = ["youtube", "instagram", "facebook"];
-  const youtubeOptions = [
+  const additionalOptions = [
     "youtube-hide-channel",
     "youtube-hide-title",
     "youtube-hide-description",
     "youtube-hide-track",
     "youtube-hide-search-button",
+    "facebook-autounmute",
   ];
 
-  const allKeys = [...platforms, ...youtubeOptions];
+  const allKeys = [...platforms, ...additionalOptions];
 
   chrome.storage.sync.get(allKeys, (settings) => {
     // Main platform toggles
@@ -22,18 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    const youtubeDefaults = {
+    const optionDefaults = {
       "youtube-hide-channel": false,
       "youtube-hide-title": false,
       "youtube-hide-description": true,
       "youtube-hide-track": true,
       "youtube-hide-search-button": true,
+      'facebook-autounmute': false,
     };
 
-    youtubeOptions.forEach((key) => {
+    additionalOptions.forEach((key) => {
       const checkbox = document.getElementById(key);
       const isChecked =
-        settings[key] !== undefined ? settings[key] : youtubeDefaults[key];
+        settings[key] !== undefined ? settings[key] : optionDefaults[key];
       checkbox.checked = isChecked;
 
       checkbox.addEventListener("change", () => {
