@@ -57,13 +57,19 @@ const modifyFacebookUI = () => {
 
     if (!window.location.hostname.includes("facebook.com")) return;
 
-    document
-      .querySelectorAll(
-        "[data-visualcompletion='ignore-dynamic'] .__fb-dark-mode"
-      )
-      .forEach(
-        (element) => (element.style.display = enabled ? "none" : "block")
-      );
+    const target = document.querySelector('[data-video-id]')
+      ?.parentElement
+      ?.nextElementSibling
+      ?.matches(".__fb-dark-mode")
+      ? document.querySelector("[data-video-id]").parentElement.nextElementSibling
+      : null;
+
+    if (target && enabled)
+      target.style.display = "block";
+      target.style.position = "absolute";
+      target.style.bottom = "70px";
+      target.style.width = "100%";
+      target.style.height = "100%";
 
     document.querySelectorAll("video").forEach((video) => {
       video.controls = enabled ? true : false;
