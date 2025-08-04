@@ -65,11 +65,13 @@ const modifyFacebookUI = () => {
       : null;
 
     if (target && enabled)
-      target.style.display = "block";
-      target.style.position = "absolute";
-      target.style.bottom = "70px";
-      target.style.width = "100%";
-      target.style.height = "100%";
+      Object.assign(target.style, {
+        display: 'block',
+        position: 'absolute',
+        bottom: '65px',
+        width: '100%',
+        height: '100%'
+      });
 
     document.querySelectorAll("video").forEach((video) => {
       video.controls = enabled ? true : false;
