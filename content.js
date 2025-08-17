@@ -56,13 +56,24 @@ const modifyFacebookUI = () => {
     const enabled = facebook !== false;
 
     if (!window.location.hostname.includes("facebook.com")) return;
-
-    const target = document.querySelector('[data-video-id]')
-      ?.parentElement
-      ?.nextElementSibling
-      ?.matches(".__fb-dark-mode")
-      ? document.querySelector("[data-video-id]").parentElement.nextElementSibling
+    
+    const base = document.querySelector('[data-video-id]');
+    const target = base?.parentElement?.nextElementSibling?.matches('.__fb-dark-mode')
+      ? base.parentElement.nextElementSibling
       : null;
+
+    if (!target) return;
+
+    if (!document.getElementById('fb-ext-overlay-style')) {
+      const style = document.createElement('style');
+      style.id = 'fb-ext-overlay-style';
+      style.textContent = `
+        .fb-ext-overlay { opacity: 0; transition:opacity .2s ease; }
+        .fb-ext-overlay:hover { opacity: 1; }
+      `;
+      document.head.appendChild(style);
+    }
+    target.classList.add('fb-ext-overlay');
 
     if (target && enabled)
       Object.assign(target.style, {
