@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ReelControl",
-  "version": "1.5",
+  "version": "1.7",
   "description": "Add a progress bar and playback controls to YouTube Shorts, Instagram, and Facebook Reels.",
   "permissions": ["scripting", "storage"],
   "host_permissions": [
